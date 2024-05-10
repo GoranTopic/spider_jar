@@ -1,75 +1,80 @@
-import { jars, store } from 'spider-jar';
-import home_script from './scripts/navHomePage.js';
-import scrap_cedula from './scraper/scrap_cedula.js';
-import parse_author from './parser/parse_author.js';
+import blessed from 'blessed';
+import contrib from 'blessed-contrib';
 
 
-let crawl_home_page = async spider => {
-    let proxy = spider.proxy;
-    let country = spider.country;
-    let name = spider.name;
-    let firstName = spider.firstName;
-    let LastName = spider.LastName;
-    let id = spider.id;
-    // important methods
-    let cluster = spider.cluster;
-    let page = spider.page;
-    // wait function 
-    await spider.wait.for.minutes(1);
-    // get cedulas from store
-    let checklist = store['cedulas'].checklist();
-    let cedula = checklist.next();
-    // get links from page
-    let authors_links = spider.getLinks(/aunthors.*/);
-    let posts_links = spider.getLinks(/posts.*/);
-    // enqueue functions
-    for( let author_link of authors_links ) 
-        spider.run('crawl_author', author_link);
-    // wait until each function is done is finished
-    for( let post of posts_links ) 
-        await spider.run('crawl_post', post);
-    // enquee in cluster the whole cluster
-    let post = posts_links[0];
-    cluster.run('crawl_post', post);
-    // cluster get single slider
-    post = posts_links[2];
-    let spiderBro = cluster.get('spider bro 21');
-    spiderBro.run('crawl_post', post);
-    // create new spider
-    let newSpider = await cluster.createSpider('spider bro 22');
-    // run function in new spider
-    newSpider.run('crawl_post', post);
-}
+const screen = blessed.screen({
+  smartCSR: true,
+  title: 'Blessed Window with Four Panels'
+});
 
-let crawl_author = async (spider, param) => {
-    // in this case the param is the link
-    let url = param;
-    let page = spider.page;
-    // go to page
-    await page.goto(url);
-    // parse the data
-    let author_data = await parse_author(page.html());
-    // save in store
-    await store['authors'].push(author_data);
-}
+// Create a grid layout
+var grid = new contrib.grid({rows: 2, cols: 2, screen: screen});
 
-let crawl_post = async (spider, param) => {
-    // in this case the param is the link
-    let url = param;
-    let page = spider.page;
-    // go to page
-    await page.goto(url);
-    // parse the data
-    let post_data = await parse_post(page.html());
-    // save in store
-    await store['posts'].push(post_data);
-}
+// Add four boxes to the grid
+var box1 = grid.set(0, 0, 1, 1, blessed.box, {
+  content: 'Top Left',
+  tags: true,
+  border: {
+    type: 'line'
+  },
+  style: {
+    fg: 'white',
+    bg: 'blue',
+    border: {
+      fg: '#f0f0f0'
+    }
+  }
+});
 
-jars( [ crawl_home_page, crawl_author, crawl_post ], {
-        spiders: 2,
-        proxies: './path/to/proxies.txt',
-    });
+var box2 = grid.set(0, 1, 1, 1, blessed.box, {
+  content: 'Top Right',
+  tags: true,
+  border: {
+    type: 'line'
+  },
+  style: {
+    fg: 'white',
+    bg: 'green',
+    border: {
+      fg: '#f0f0f0'
+    }
+  }
+});
 
+var box3 = grid.set(1, 0, 1, 1, blessed.box, {
+  content: 'Bottom Left',
+  tags: true,
+  border: {
+    type: 'line'
+  },
+  style: {
+    fg: 'white',
+    bg: 'red',
+    border: {
+      fg: '#f0f0f0'
+    }
+  }
+});
 
+var box4 = grid.set(1, 1, 1, 1, blessed.box, {
+  content: 'Bottom Right',
+  tags: true,
+  border: {
+    type: 'line'
+  },
+  style: {
+    fg: 'white',
+    bg: 'yellow',
+    border: {
+      fg: '#f0f0f0'
+    }
+  }
+});
 
-    
+// Quit on Escape, q, or Control-C.
+screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+  return process.exit(0);
+});
+
+// Render the screen.
+screen.render();

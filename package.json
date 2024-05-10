@@ -1,0 +1,28 @@
+{
+    "name": "spider-jars",
+    "version": "1.0.0",
+    "description": "A modern library for the containaried scrawling",
+    "main": "index.js",
+    "type": "module",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "start": "node src/main.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "crawling",
+        "data",
+        "mining",
+        "docker",
+        "containers",
+        "parallel"
+    ],
+    "author": "Goran Topic",
+    "license": "ISC",
+    "dependencies": {
+        "blessed": "^0.1.81",
+        "blessed-contrib": "^4.11.0"
+    }
+}
