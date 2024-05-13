@@ -1,4 +1,5 @@
 import contrib from 'blessed-contrib'
+import { widget } from './widget'
 
 let update_interval = 500 // ms
 
@@ -9,7 +10,8 @@ let proxy_locations = [
     {lon: "103.8000", lat: "1.3000", color: 'yellow', char: 'X'}
 ]
 
-function map({ grid, location }){
+
+function map( { grid, location } : widget) : contrib.Widgets.MapElement {
     let map = grid.set(
         location.x, location.y, location.w, location.h, 
         contrib.map, 

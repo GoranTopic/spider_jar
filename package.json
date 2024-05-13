@@ -8,7 +8,7 @@
         "test": "test"
     },
     "scripts": {
-        "start": "node src/main.js",
+        "start": "ts-node src/main.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
@@ -24,5 +24,10 @@
     "dependencies": {
         "blessed": "^0.1.81",
         "blessed-contrib": "^4.11.0"
+    },
+    "devDependencies": {
+        "@types/blessed": "^0.1.25",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.5"
     }
 }

@@ -1,7 +1,6 @@
 import blessed from 'blessed'
 import contrib from 'blessed-contrib'
-import map from './gui/components/map.js'
-import donut from './gui/components/donut.js'
+import { map, donut } from './gui/components'
 
 var screen = blessed.screen()
 
