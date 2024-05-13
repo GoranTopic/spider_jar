@@ -2,8 +2,7 @@
     "name": "spider-jars",
     "version": "1.0.0",
     "description": "A modern library for the containaried scrawling",
-    "main": "index.js",
-    "type": "module",
+    "main": "main.ts",
     "directories": {
         "test": "test"
     },

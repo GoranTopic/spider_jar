@@ -1,10 +1,11 @@
 import contrib from 'blessed-contrib'
+import { Widget } from './types'
 
 let update_interval = 500 // ms
 
 let pct = 0.00;
 
-const donut = ({ grid, location, data }) => {
+function donut({ grid, location, data }: Widget): contrib.Widgets.DonutElement {
     /**
      * Donut Options
   self.options.radius = options.radius || 14; // how wide is it? over 5 is best
@@ -28,6 +29,7 @@ const donut = ({ grid, location, data }) => {
         if (pct >= 0.5) color = "yellow";
         if (pct >= 0.75) color = "red";  
         donut.setData([
+            // @ts-ignore
             {percent: parseFloat((pct+0.00) % 1).toFixed(2), label: 'storage', 'color': color}
         ]);
         pct += 0.01;
@@ -35,6 +37,7 @@ const donut = ({ grid, location, data }) => {
     setInterval(function() {   
         updateDonut();
     }, update_interval);
+
     // donut component
     return donut
 }

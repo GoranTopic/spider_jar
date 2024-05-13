@@ -1,6 +1,12 @@
 import blessed from 'blessed'
 import contrib from 'blessed-contrib'
-import { map, donut } from './gui/components'
+import { 
+    map, 
+    donut,
+    sparkline,
+    bar,
+    table,
+} from './gui/widgets'
 
 var screen = blessed.screen()
 
@@ -8,41 +14,40 @@ var screen = blessed.screen()
 
 var grid = new contrib.grid({rows: 12, cols: 12, screen: screen})
 
-donut({ grid, location: { x: 8, y: 8, w: 4, h: 2 } });
+let elements = [
+    // donut widget
+    donut({ grid, location: { x: 8, y: 8, w: 4, h: 2 } }),
+    // map widget
+    map({ grid, location: { x: 6, y: 0, w: 6, h: 6 } }),
+    // sparkline widget
+    sparkline({ grid, location: { x: 10, y: 10, w: 2, h: 2 } }),
+    // bar widget
+    /*
+    bar({ grid, 
+        location: { x: 5, y: 6, w: 4, h: 3 },
+        style: { label: 'Server Utilization (%)',
+            barWidth: 4, barSpacing: 6, xOffset: 2, maxHeight: 9
+        }
+    }),
+    */
 
-map({ grid, location: { x: 6, y: 0, w: 6, h: 6 } });
+    // table widget
+   /*
+    table({ grid, location: { x: 4, y: 9, w: 4, h: 3 },
+          style: { 
+              keys: true, 
+              fg: 'green', 
+              label: 'Active Processes', 
+              columnSpacing: 1, 
+              columnWidth: [24, 10, 10] 
+          }
+    }),
+    */
 
 
-// var latencyLine = grid.set(8, 8, 4, 2, contrib.line, 
-//   { style: 
-//     { line: "yellow"
-//     , text: "green"
-//     , baseline: "black"}
-//   , xLabelPadding: 3
-//   , xPadding: 5
-//   , label: 'Network Latency (sec)'})
+]
 
-var gauge = grid.set(8, 10, 2, 2, contrib.gauge, {label: 'Storage', percent: [80,20]})
-var gauge_two = grid.set(2, 9, 2, 3, contrib.gauge, {label: 'Deployment Progress', percent: 80})
 
-var sparkline = grid.set(10, 10, 2, 2, contrib.sparkline, 
-  { label: 'Throughput (bits/sec)'
-  , tags: true
-  , style: { fg: 'blue', titleFg: 'white' }})
-
-var bar = grid.set(4, 6, 4, 3, contrib.bar, 
-  { label: 'Server Utilization (%)'
-  , barWidth: 4
-  , barSpacing: 6
-  , xOffset: 2
-  , maxHeight: 9})
-
-var table =  grid.set(4, 9, 4, 3, contrib.table, 
-  { keys: true
-  , fg: 'green'
-  , label: 'Active Processes'
-  , columnSpacing: 1
-  , columnWidth: [24, 10, 10]})
 
 /*
  *
@@ -59,7 +64,9 @@ var table =  grid.set(4, 9, 4, 3, contrib.table,
 //coloring
   options.color = options.color || "white";
 */
-var lcdLineOne = grid.set(0,9,2,3, contrib.lcd,
+
+var lcdLineOne = grid.set(0,9,2,3, 
+                          contrib.lcd,
   {
     label: "LCD Test",
     segmentWidth: 0.06,
@@ -71,6 +78,7 @@ var lcdLineOne = grid.set(0,9,2,3, contrib.lcd,
     elementPadding: 2
   }
 );
+
 
 var errorsLine = grid.set(0, 6, 4, 3, contrib.line, 
   { style: 
@@ -88,64 +96,16 @@ var transactionsLine = grid.set(0, 0, 6, 6, contrib.line,
           , showLegend: true
           , legend: {width: 10}})
 
+      /*
 var log = grid.set(8, 6, 4, 2, contrib.log, 
   { fg: "green"
   , selectedFg: "green"
   , label: 'Server Log'})
 
 
-//dummy data
+//dummy data logs
 var servers = ['US1', 'US2', 'EU1', 'AU1', 'AS1', 'JP1']
 var commands = ['grep', 'node', 'java', 'timer', '~/ls -l', 'netns', 'watchdog', 'gulp', 'tar -xvf', 'awk', 'npm install']
-
-
-//set dummy data on gauge
-var gauge_percent = 0
-setInterval(function() {
-  gauge.setData([gauge_percent, 100-gauge_percent]);
-  gauge_percent++;
-  if (gauge_percent>=100) gauge_percent = 0  
-}, 200)
-
-var gauge_percent_two = 0
-setInterval(function() {
-  gauge_two.setData(gauge_percent_two);
-  gauge_percent_two++;
-  if (gauge_percent_two>=100) gauge_percent_two = 0  
-}, 200);
-
-
-//set dummy data on bar chart
-function fillBar() {
-  var arr = []
-  for (var i=0; i<servers.length; i++) {
-    arr.push(Math.round(Math.random()*10))
-  }
-  bar.setData({titles: servers, data: arr})
-}
-fillBar()
-setInterval(fillBar, 2000)
-
-
-//set dummy data for table
-function generateTable() {
-   var data = []
-
-   for (var i=0; i<30; i++) {
-     var row = []          
-     row.push(commands[Math.round(Math.random()*(commands.length-1))])
-     row.push(Math.round(Math.random()*5))
-     row.push(Math.round(Math.random()*100))
-
-     data.push(row)
-   }
-
-   table.setData({headers: ['Process', 'Cpu (%)', 'Memory'], data: data})
-}
-
-generateTable()
-table.focus()
-setInterval(generateTable, 3000)
 
 
 //set log dummy data
@@ -154,24 +114,7 @@ setInterval(function() {
    if (rnd==0) log.log('starting process ' + commands[Math.round(Math.random()*(commands.length-1))])   
    else if (rnd==1) log.log('terminating server ' + servers[Math.round(Math.random()*(servers.length-1))])
    else if (rnd==2) log.log('avg. wait time ' + Math.random().toFixed(2))
-   screen.render()
 }, 500)
-
-
-//set spark dummy data
-var spark1 = [1,2,5,2,1,5,1,2,5,2,1,5,4,4,5,4,1,5,1,2,5,2,1,5,1,2,5,2,1,5,1,2,5,2,1,5]
-var spark2 = [4,4,5,4,1,5,1,2,5,2,1,5,4,4,5,4,1,5,1,2,5,2,1,5,1,2,5,2,1,5,1,2,5,2,1,5]
-
-refreshSpark()
-setInterval(refreshSpark, 1000)
-
-function refreshSpark() {
-  spark1.shift()
-  spark1.push(Math.random()*5+1)       
-  spark2.shift()
-  spark2.push(Math.random()*5+1)       
-  sparkline.setData(['Server1', 'Server2'], [spark1, spark2])  
-}
 
 
 //set line charts dummy data
@@ -203,7 +146,6 @@ var latencyData = {
 
 setLineData([transactionsData, transactionsData1], transactionsLine)
 setLineData([errorsData], errorsLine)
-// setLineData([latencyData], latencyLine)
 
 setInterval(function() {
    setLineData([transactionsData, transactionsData1], transactionsLine)
@@ -235,22 +177,20 @@ function setLineData(mockData, line) {
     var num = Math.max(last + Math.round(Math.random()*10) - 5, 10)    
     mockData[i].y.push(num)  
   }
-  
   line.setData(mockData)
 }
+*/
 
+screen.on('resize', () => {
+    elements.forEach( e => e.emit('attach') );
+});
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
 });
 
-
-/*
-let elements = [donut, gauge, gauge_two, sparkline, bar, table, lcdLineOne, errorsLine, transactionsLine, map, log];
-// fixes https://github.com/yaronn/blessed-contrib/issues/10
-screen.on('resize', () => {
-    elements.forEach( e => e.emit('attach') );
-});
-*/
+setInterval(() => {
+    screen.render()
+}, 100)
 
 screen.render()
