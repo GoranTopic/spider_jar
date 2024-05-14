@@ -3,6 +3,7 @@ import map from './map';
 import sparkline from './sparkline';
 import bar from './bar';
 import table from './table';
+import lcd from './lcd';
 
 import { Widget } from './types';
 
@@ -12,6 +13,7 @@ export {
     sparkline,
     bar,
     table,
+    lcd,
     Widget
 };
 

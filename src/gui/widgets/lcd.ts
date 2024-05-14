@@ -3,6 +3,22 @@ import { Widget } from './types'
 
 let update_interval = 500 // ms
 
+/*// lcd widget usage
+  lcd({ grid, location: { x: 0, y: 9, w: 4, h: 3 },
+  style: { 
+  display: 546, 
+  segmentWidth: 0.06, 
+  segmentInterval: 0.11, 
+  strokeWidth: 0.1, 
+  elements: 5, 
+  elementSpacing: 4, 
+  elementPadding: 2
+  }
+  })
+  */
+
+
+
 /*
 * LCD Options
 //these options need to be modified epending on the resulting positioning/size
@@ -19,25 +35,15 @@ options.color = options.color || "white";
 */
 
 
-let gauge_percent = 0;
-
-
-function gauge({ grid, location, data }: Widget): contrib.Widgets.GaugeElement {
-        var gauge = grid.set(
+function lcd({ grid, location, data, style }: Widget): any {
+    let lcd = grid.set(
         location.y, location.x, location.w, location.h,
-        contrib.gauge, {
-            label: 'storage',
-            percent: [80,20],
-        })
-        // gauge percent update
-        setInterval(function() {
-            gauge.setData([gauge_percent, 100-gauge_percent]);
-            gauge_percent++;
-            if (gauge_percent>=100) gauge_percent = 0  
-        }, 200)
-    // gauge percent update
-    return gauge
+        contrib.lcd, 
+        style
+    )
+
+    return lcd
 }
 
 
-export default gauge
+export default lcd
