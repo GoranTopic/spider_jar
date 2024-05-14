@@ -42,6 +42,17 @@ function lcd({ grid, location, data, style }: Widget): any {
         style
     )
 
+    setInterval(function(){
+        var colors = ['green','magenta','cyan','red','blue'];
+        var text = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+        var value = Math.round(Math.random() * 100);
+        lcd.setDisplay(value + text[value%12]);
+        lcd.setOptions({
+            color: colors[value%5],
+            elementPadding: 4
+        });
+    }, update_interval);
+
     return lcd
 }
 

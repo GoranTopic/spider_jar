@@ -43,50 +43,18 @@ let elements = [
        }
        }),
        */
-    
-     
+    // line 
 
 
 ]
 
-
-
-var errorsLine = grid.set(0, 6, 4, 3, contrib.line, 
-  { style: 
-    { line: "red"
-    , text: "white"
-    , baseline: "black"}
-  , label: 'Errors Rate'
-  , maxY: 60
-  , showLegend: true })
-
-var transactionsLine = grid.set(0, 0, 6, 6, contrib.line, 
-          { showNthLabel: 5
-          , maxY: 100
-          , label: 'Total Transactions'
-          , showLegend: true
-          , legend: {width: 10}})
-
-      /*
-var log = grid.set(8, 6, 4, 2, contrib.log, 
-  { fg: "green"
-  , selectedFg: "green"
-  , label: 'Server Log'})
-
-
-//dummy data logs
-var servers = ['US1', 'US2', 'EU1', 'AU1', 'AS1', 'JP1']
-var commands = ['grep', 'node', 'java', 'timer', '~/ls -l', 'netns', 'watchdog', 'gulp', 'tar -xvf', 'awk', 'npm install']
-
-
-//set log dummy data
-setInterval(function() {
-   var rnd = Math.round(Math.random()*2)
-   if (rnd==0) log.log('starting process ' + commands[Math.round(Math.random()*(commands.length-1))])   
-   else if (rnd==1) log.log('terminating server ' + servers[Math.round(Math.random()*(servers.length-1))])
-   else if (rnd==2) log.log('avg. wait time ' + Math.random().toFixed(2))
-}, 500)
-
+var transactionsLine = grid.set(0, 0, 6, 6,
+                                contrib.line, 
+{ showNthLabel: 5
+    , maxY: 100
+    , label: 'Total Transactions'
+    , showLegend: true
+    , legend: {width: 10}})
 
 //set line charts dummy data
 
@@ -104,44 +72,15 @@ var transactionsData1 = {
    y: [0, 5, 5, 10, 10, 15, 20, 30, 25, 30, 30, 20, 20, 30, 30, 20, 15, 15, 19, 25, 30, 25, 25, 20, 25, 30, 35, 35, 30, 30]
 }
 
-var errorsData = {
-   title: 'server 1',
-   x: ['00:00', '00:05', '00:10', '00:15', '00:20', '00:25'],
-   y: [30, 50, 70, 40, 50, 20]
-}
-
-var latencyData = {
-   x: ['t1', 't2', 't3', 't4'],
-   y: [5, 1, 7, 5]
-}
-
-setLineData([transactionsData, transactionsData1], transactionsLine)
-setLineData([errorsData], errorsLine)
+//setLineData([transactionsData, transactionsData1], transactionsLine)
 
 setInterval(function() {
    setLineData([transactionsData, transactionsData1], transactionsLine)
    screen.render()
 }, 500)
 
-setInterval(function() {   
-    setLineData([errorsData], errorsLine)
-}, 1500)
 
-setInterval(function(){
-  var colors = ['green','magenta','cyan','red','blue'];
-  var text = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-
-  var value = Math.round(Math.random() * 100);
-  lcdLineOne.setDisplay(value + text[value%12]);
-  lcdLineOne.setOptions({
-    color: colors[value%5],
-    elementPadding: 4
-  });
-  screen.render()
-}, 1500);
-
-
-function setLineData(mockData, line) {
+function setLineData(mockData:any , line:any) {
   for (var i=0; i<mockData.length; i++) {
     var last = mockData[i].y[mockData[i].y.length-1]
     mockData[i].y.shift()
@@ -150,7 +89,6 @@ function setLineData(mockData, line) {
   }
   line.setData(mockData)
 }
-*/
 
 screen.on('resize', () => {
     elements.forEach( e => e.emit('attach') );

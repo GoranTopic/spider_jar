@@ -4,6 +4,8 @@ import sparkline from './sparkline';
 import bar from './bar';
 import table from './table';
 import lcd from './lcd';
+import log from './log';
+import line from './line';
 
 import { Widget } from './types';
 
@@ -14,6 +16,8 @@ export {
     bar,
     table,
     lcd,
+    log,
+    line,
     Widget
 };
 
