@@ -16,6 +16,8 @@ var screen = blessed.screen()
 
 var grid = new contrib.grid({rows: 12, cols: 12, screen: screen})
 
+grid
+
 let elements = [
     // donut widget
     donut({ grid, location: { x: 8, y: 8, w: 4, h: 2 } }),
@@ -58,15 +60,17 @@ let elements = [
 ]
 
 
-
-
-
 screen.on('resize', () => {
     elements.forEach( e => e.emit('attach') );
 });
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
+});
+
+// arrow left
+screen.key(['left'], function(ch, key) {
+    map({ grid, location: { x: 8, y: 3, w: 6, h: 6 } })
 });
 
 setInterval(() => {
