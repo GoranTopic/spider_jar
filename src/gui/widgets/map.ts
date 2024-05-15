@@ -12,7 +12,7 @@ let proxy_locations = [
 
 function map( { grid, location } : Widget) : contrib.Widgets.MapElement {
     let map : contrib.Widgets.MapElement = grid.set(
-        location.x, location.y, location.w, location.h, 
+        location.y, location.x, location.h, location.w, 
         contrib.map, 
         {label: 'Servers Location'}
     )

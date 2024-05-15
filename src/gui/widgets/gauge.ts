@@ -7,7 +7,7 @@ let gauge_percent = 0;
 
 function gauge({ grid, location, data }: Widget): contrib.Widgets.GaugeElement {
     var gauge = grid.set(
-        location.y, location.x, location.w, location.h,
+        location.y, location.x, location.h, location.w,
         contrib.gauge, {
             label: 'storage',
             percent: [80,20],

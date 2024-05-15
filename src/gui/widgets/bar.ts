@@ -12,7 +12,7 @@ var commands = ['grep', 'node', 'java', 'timer', '~/ls -l', 'netns', 'watchdog',
 
 function bar({ grid, location, data, style }: Widget): contrib.Widgets.BarElement {
     let bar = grid.set(
-        location.y, location.x, location.w, location.h,
+        location.y, location.x, location.h, location.w,
         contrib.bar, 
         style
     )

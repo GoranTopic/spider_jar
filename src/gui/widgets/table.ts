@@ -9,7 +9,7 @@ var commands = ['grep', 'node', 'java', 'timer', '~/ls -l', 'netns', 'watchdog',
 
 function table({ grid, location, data, style }: Widget): contrib.Widgets.TableElement {
     let table = grid.set(
-        location.y, location.x, location.w, location.h,
+        location.y, location.x, location.h, location.w,
         contrib.table,
         style
     )

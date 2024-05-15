@@ -10,7 +10,7 @@ var commands = ['grep', 'node', 'java', 'timer',
 
 function log({ grid, location, data, style }: Widget): contrib.Widgets.LogElement {
     let log = grid.set(
-        location.y, location.x, location.w, location.h,
+        location.y, location.x, location.h, location.w,
         contrib.log, 
         style
     )

@@ -16,9 +16,6 @@ let update_interval = 500 // ms
   }
   })
   */
-
-
-
 /*
 * LCD Options
 //these options need to be modified epending on the resulting positioning/size
@@ -37,7 +34,7 @@ options.color = options.color || "white";
 
 function lcd({ grid, location, data, style }: Widget): any {
     let lcd = grid.set(
-        location.y, location.x, location.w, location.h,
+        location.y, location.x, location.h, location.w,
         contrib.lcd, 
         style
     )

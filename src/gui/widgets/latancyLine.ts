@@ -13,7 +13,7 @@ let latencyData = {
 
 function latancyLine( { grid, location } : Widget) : contrib.Widgets.LineElement {
     var latencyLine = grid.set(
-        location.x, location.y, location.w, location.h,
+        location.x, location.y, location.h, location.w,
         contrib.line, 
         { style: { line: "yellow" , text: "green" , baseline: "black"} , 
             xLabelPadding: 3 , 

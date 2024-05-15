@@ -6,7 +6,6 @@ import table from './table';
 import lcd from './lcd';
 import log from './log';
 import line from './line';
-
 import { Widget } from './types';
 
 export { 

@@ -14,7 +14,7 @@ function sparkline({ grid, location, data }: Widget): contrib.Widgets.SparklineE
      self.options.yPadding = options.yPadding || 2; //padding from the top
      */
     var sparkline = grid.set(
-        location.y, location.x, location.w, location.h,
+        location.y, location.x, location.h, location.w,
         contrib.sparkline, {
             label: 'Throughput (bits/sec)',
             tags: true,

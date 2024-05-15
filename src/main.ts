@@ -1,5 +1,6 @@
 import blessed from 'blessed'
 import contrib from 'blessed-contrib'
+import Window from './gui/window'
 import { 
     map, 
     donut,
@@ -16,52 +17,47 @@ var screen = blessed.screen()
 
 var grid = new contrib.grid({rows: 12, cols: 12, screen: screen})
 
-grid
+let donutWindow = new Window({ 
+    grid, 
+    height: 12, 
+    width: 12,
+    makers: [ 
+        { make_widget: donut, width: 12, height: 4, },
+        { make_widget: lcd, width: 5, height: 5,
+            style: {
+                display: 546, 
+                segmentWidth: 0.06, 
+                segmentInterval: 0.11, 
+                strokeWidth: 0.1, 
+                elements: 5, 
+                elementSpacing: 4, 
+                elementPadding: 2
+            }
+        },
+        //{ make_widget: bar, width: 4, height: 4, },
+        //{ make_widget: table, width: 4, height: 2, },
+        //{ make_widget: sparkline, width: 3, height: 4, },
+        //{ make_widget: line, width: 4, height: 4, },
+        { make_widget: map, width: 4, height: 4 },
+        //{ make_widget: donut, width: 3, height: 3 }
+    ]
+})
 
-let elements = [
-    // donut widget
-    donut({ grid, location: { x: 8, y: 8, w: 4, h: 2 } }),
-    // map widget
-    map({ grid, location: { x: 6, y: 0, w: 6, h: 6 } }),
-    // sparkline widget
-    sparkline({ grid, location: { x: 10, y: 10, w: 2, h: 2 } }),
-    // bar widget
-    /*
-       bar({ grid, 
-       location: { x: 5, y: 6, w: 4, h: 3 },
-       style: { label: 'Server Utilization (%)',
-       barWidth: 4, barSpacing: 6, xOffset: 2, maxHeight: 9
-       }
-       }),
-       */
-    // table widget
-    /*
-       table({ grid, location: { x: 4, y: 9, w: 4, h: 3 },
-       style: { 
-       keys: true, 
-       fg: 'green', 
-       label: 'Active Processes', 
-       columnSpacing: 1, 
-       columnWidth: [24, 10, 10] 
-       }
-       }),
-       */
-    // line 
-    line({ grid, 
-         location: { x: 0, y: 0, w: 6, h: 6 },
-         style: {
-             showNthLabel: 5,
-             maxY: 100,
-             label: 'Total Transactions',
-             showLegend: true,
-             legend: { width: 10 }
-         }
-    }),
-]
+let mapWindow = new Window({
+    grid,
+    height: 12,
+    width: 12,
+    makers: [
+        { make_widget: map, width: 12, height: 12 }
+    ]
+})
 
+let currentWindow = donutWindow;
+
+currentWindow.mount();
 
 screen.on('resize', () => {
-    elements.forEach( e => e.emit('attach') );
+    currentWindow.getWidgets().forEach( e => e.emit('resize') );
 });
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
@@ -69,8 +65,17 @@ screen.key(['escape', 'q', 'C-c'], function(ch, key) {
 });
 
 // arrow left
-screen.key(['left'], function(ch, key) {
-    map({ grid, location: { x: 8, y: 3, w: 6, h: 6 } })
+screen.key(['m'], function(ch, key) {
+    currentWindow.destroy();
+    currentWindow = mapWindow;
+    currentWindow.mount();
+});
+
+// arrow left
+screen.key(['l'], function(ch, key) {
+    currentWindow.destroy();
+    currentWindow = donutWindow;
+    currentWindow.mount();
 });
 
 setInterval(() => {
