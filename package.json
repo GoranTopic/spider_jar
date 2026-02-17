@@ -2,12 +2,12 @@
     "name": "spider-jars",
     "version": "1.0.0",
     "description": "A modern library for the containaried scrawling",
-    "main": "main.ts",
+    "main": "main.js",
     "directories": {
         "test": "test"
     },
     "scripts": {
-        "start": "ts-node src/main.ts",
+        "start": "bun src/main.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
@@ -22,7 +22,8 @@
     "license": "ISC",
     "dependencies": {
         "blessed": "^0.1.81",
-        "blessed-contrib": "^4.11.0"
+        "blessed-contrib": "^4.11.0",
+        "slavery-js": "^2.1.4"
     },
     "devDependencies": {
         "@types/blessed": "^0.1.25",
