@@ -1,6 +1,5 @@
 import slavery  from 'slavery-js';
 
-
 let wait_function = async s => await new Promise(r => setTimeout(() => r(s), s * 1000))
 
 slavery({
@@ -18,6 +17,7 @@ wait: async s => {
 .main( async ({ self, waiter, logger }) => {
 	console.log(`[${process.argv[1].split('/').pop()}] testing the slavery api`)
 	let result = await waiter.wait(1)
+	console.log('result:', result)
 	await logger.log('main')
 	console.log(`[${process.argv[1].split('/').pop()}] ✅ test passed`)
 	await waiter.exit()

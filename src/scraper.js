@@ -94,7 +94,7 @@ async function scrape(url, cedula) {
                 continue
             }
         }
-        console.log("# Movimientos:", rowsTestLength)
+        console.log("Movimientos:", rowsTestLength)
 
         const dataList = await page.$$eval(
             '[id="form:j_idt110_data"] > tr',
@@ -119,6 +119,7 @@ async function scrape(url, cedula) {
     }
 
     await browser.close()
+	
     return {
         cedula: cedula,
         date: new Date().toISOString(),
@@ -130,7 +131,10 @@ async function scrape(url, cedula) {
 
 (async () => {
     const result = await scrape('https://supa.funcionjudicial.gob.ec/pensiones/publico/consulta.jsf',
-        '0931488605'
+		'0916576796'
+		//'0931488605'
     )
     console.log(result)
 })()
+
+
